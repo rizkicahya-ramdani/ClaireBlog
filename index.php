@@ -1,33 +1,29 @@
+<?php 
+
+session_start(); 
+
+if (!isset($_SESSION['username'])) {
+    header('Location: login.php');
+    exit();
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Home - MyBlog</title>
+  <title>ClaireBlog - Beranda</title>
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-  
-  <nav class="bg-white shadow-md sticky top-0 z-50">
-    <div class="max-w-7xl mx-auto px-4 flex justify-between h-16 items-center">
-      <a href="#" class="text-2xl font-bold text-blue-600">MyBlog</a>
-      <div class="hidden md:flex space-x-6">
-        <a href="#" class="hover:text-blue-600">Home</a>
-        <a href="#" class="hover:text-blue-600">Artikel</a>
-        <a href="#" class="hover:text-blue-600">Kategori</a>
-        <a href="#" class="hover:text-blue-600">Tentang</a>
-      </div>
-      <div class="flex items-center space-x-4">
-        <a href="#" class="text-gray-700 hover:text-blue-600">Login</a>
-        <a href="#" class="bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700">Daftar</a>
-        </div>
-    </div>
-  </nav>
+<?php include 'components/navbar.php'; ?>
 
   <section class="bg-blue-600 text-white py-20">
     <div class="max-w-4xl mx-auto px-4 text-center">
-      <h1 class="text-4xl font-bold mb-4">Selamat Datang di MyBlog</h1>
+      <h1 class="text-4xl font-bold mb-4">Selamat Datang di ClaireBlog</h1>
       <p class="text-lg">Temukan artikel menarik seputar teknologi, pemrograman, dan kehidupan digital.</p>
       <a href="#artikel" class="mt-6 inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100">Jelajahi Artikel</a>
     </div>
@@ -68,16 +64,7 @@
     </div>
   </section>
 
-  <footer class="bg-white border-t mt-10">
-    <div class="max-w-7xl mx-auto px-4 py-6 flex flex-col md:flex-row justify-between items-center text-sm text-gray-600">
-      <p>&copy; 2025 MyBlog. All rights reserved.</p>
-      <div class="space-x-4 mt-2 md:mt-0">
-        <a href="#" class="hover:text-blue-600">Privacy</a>
-        <a href="#" class="hover:text-blue-600">Terms</a>
-        <a href="#" class="hover:text-blue-600">Kontak</a>
-      </div>
-    </div>
-  </footer>
+  <?php include 'components/footer.php'; ?>
 
 </body>
 </html>
