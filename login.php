@@ -5,15 +5,13 @@ include 'connection.php';
 session_start();
 
 if (isset($_SESSION['username'])) {
-    // Sudah login, arahkan ke index
     header('Location: index.php');
     exit();
 }
 
-// Cek jika form dikirim
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = mysqli_real_escape_string($connection, $_POST['email']);
-    $password = md5($_POST['password']); // Pastikan password di DB juga MD5
+    $password = md5($_POST['password']);
 
     $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
     $result = mysqli_query($connection, $query);
@@ -38,6 +36,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>ClaireBlog - Login</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="style.css">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-100 flex items-center justify-center min-h-screen">

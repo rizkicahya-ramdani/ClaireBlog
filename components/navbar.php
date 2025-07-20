@@ -13,17 +13,19 @@ if (session_status() === PHP_SESSION_NONE) {
     <a href="#" class="text-2xl font-bold text-blue-600">ClaireBlog</a>
 
     <div class="hidden md:flex space-x-6">
-      <a href="#" class="hover:text-blue-600">Home</a>
-      <a href="#" class="hover:text-blue-600">Artikel</a>
-      <a href="#" class="hover:text-blue-600">Kategori</a>
-      <a href="#" class="hover:text-blue-600">Tentang</a>
+      <a href="index.php" class="hover:text-blue-600">Home</a>
+      <a href="page/article.php" class="hover:text-blue-600">Artikel</a>
+      <a href="page/category.php" class="hover:text-blue-600">Kategori</a>
+      <a href="page/about.php" class="hover:text-blue-600">Tentang</a>
     </div>
 
     <div class="hidden md:flex items-center space-x-4">
       <?php if (isset($_SESSION['username'])): ?>
         <div class="text-sm text-gray-700 text-right">
-          <div class="font-semibold"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
-          <div class="text-xs"><?php echo htmlspecialchars($_SESSION['email']); ?></div>
+          <a href="edit_profile.php">
+            <div class="font-semibold"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
+            <div class="text-xs"><?php echo htmlspecialchars($_SESSION['email']); ?></div>
+          </a>
         </div>
         <a href="logout.php" class="bg-red-500 text-white px-3 py-1 rounded hover:bg-red-600 text-sm">Logout</a>
       <?php else: ?>
