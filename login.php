@@ -1,34 +1,42 @@
 <?php
-
-include 'connection.php';
-
 session_start();
+include 'connection.php'; // pastikan file ini mendefinisikan $conn dengan benar
 
-if (isset($_SESSION['username'])) {
-    header('Location: index.php');
-    exit();
-}
+if ($_SERVER['REQUEST_METHOD'] === 'POST') {
+    $username_or_email = isset($_POST['username']) ? trim($_POST['username']) : '';
+    $password = $_POST['password'] ?? '';
 
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    $email = mysqli_real_escape_string($connection, $_POST['email']);
-    $password = md5($_POST['password']);
+    if (!empty($username_or_email) && !empty($password)) {
+        $stmt = $connection->prepare("SELECT * FROM users WHERE username = ? OR email = ?");
+        $stmt->bind_param("ss", $username_or_email, $username_or_email);
+        $stmt->execute();
+        $result = $stmt->get_result();
 
-    $query = "SELECT * FROM users WHERE email='$email' AND password='$password'";
-    $result = mysqli_query($connection, $query);
+        if ($result->num_rows === 1) {
+            $user = $result->fetch_assoc();
 
-    if ($result && mysqli_num_rows($result) > 0) {
-        $user = mysqli_fetch_assoc($result);
-        $_SESSION['username'] = $user['username'];
-        $_SESSION['email'] = $user['email'];
-        $_SESSION['profile_picture'] = $user['profile_picture'] ?? '/default.png';
+            if (password_verify($password, $user['password'])) {
+                // Set session
+                $_SESSION['username'] = $user['username'];
+                $_SESSION['email'] = $user['email'];
+                $_SESSION['profile_picture'] = $user['profile_picture'];
 
-        header('Location: index.php');
-        exit();
+                // Redirect ke index setelah login sukses
+                header("Location: index.php");
+                exit;
+            } else {
+                echo "<script>alert('Password salah'); window.history.back();</script>";
+                exit;
+            }
+        } else {
+            echo "<script>alert('Akun tidak ditemukan'); window.history.back();</script>";
+            exit;
+        }
     } else {
-        $error = "Email atau password salah!";
+        echo "<script>alert('Mohon isi semua field'); window.history.back();</script>";
+        exit;
     }
 }
-
 ?>
 
 <!DOCTYPE html>
@@ -52,8 +60,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <form method="POST" class="space-y-5">
       
       <div>
-        <label for="email" class="block mb-1 text-sm font-medium text-gray-700">Email</label>
-        <input type="email" id="email" name="email" required
+        <label for="username" class="block mb-1 text-sm font-medium text-gray-700">Username atau Email</label>
+        <input type="text" id="username" name="username" required
           class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500" />
       </div>
 

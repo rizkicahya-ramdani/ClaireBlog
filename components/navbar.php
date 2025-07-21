@@ -25,7 +25,7 @@ $base_url = "/blog-app/";
       <?php if (isset($_SESSION['username'])): ?>
         <div class="flex items-center space-x-3">
           <!-- Username and Email -->
-          <a href="edit_profile.php">
+          <a href="<?= $base_url ?>edit_profile.php">
             <div class="text-sm text-gray-700 text-right">
               <div class="font-semibold"><?php echo htmlspecialchars($_SESSION['username']); ?></div>
               <div class="text-xs"><?php echo htmlspecialchars($_SESSION['email']); ?></div>
