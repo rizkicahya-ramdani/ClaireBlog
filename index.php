@@ -1,13 +1,15 @@
-<?php 
-
+<?php
 include 'connection.php';
-session_start(); 
+session_start();
 
 if (!isset($_SESSION['username'])) {
-    header('Location: login.php');
-    exit();
+  header('Location: login.php');
+  exit();
 }
 
+$result = $connection->query("SELECT posts.*, users.username FROM posts 
+                        JOIN users ON posts.user_id = users.id 
+                        ORDER BY posts.created_at DESC");
 ?>
 
 <!DOCTYPE html>
@@ -23,12 +25,11 @@ if (!isset($_SESSION['username'])) {
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
   <link rel="stylesheet" href="style.css">
-
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-<?php include 'components/navbar.php'; ?>
+  <?php include 'components/navbar.php'; ?>
 
   <section class="bg-blue-600 text-white py-20">
     <div class="max-w-4xl mx-auto px-4 text-center">
@@ -43,32 +44,26 @@ if (!isset($_SESSION['username'])) {
       <h2 class="text-2xl font-bold mb-8 text-center">Artikel Terbaru</h2>
 
       <div class="grid md:grid-cols-3 gap-8">
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <img src="https://source.unsplash.com/600x400/?coding,blog" alt="artikel" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold mb-2">Cara Belajar Tailwind CSS untuk Pemula</h3>
-            <p class="text-sm text-gray-600 mb-4">Panduan lengkap belajar Tailwind CSS dengan mudah dan cepat.</p>
-            <a href="#" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <img src="https://source.unsplash.com/600x400/?technology,blog" alt="artikel" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold mb-2">Kenapa Harus Memulai Blog di 2025?</h3>
-            <p class="text-sm text-gray-600 mb-4">Membangun personal branding dan portofolio lewat blog pribadi.</p>
-            <a href="#" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
-          </div>
-        </div>
-
-        <div class="bg-white rounded-lg shadow-md overflow-hidden">
-          <img src="https://source.unsplash.com/600x400/?developer,blog" alt="artikel" class="w-full h-48 object-cover">
-          <div class="p-4">
-            <h3 class="text-lg font-semibold mb-2">5 Editor Blog yang Harus Kamu Coba</h3>
-            <p class="text-sm text-gray-600 mb-4">Review tools editor blog paling populer untuk menulis dengan nyaman.</p>
-            <a href="#" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
-          </div>
-        </div>
+        <?php if ($result->num_rows > 0): ?>
+          <?php while($row = $result->fetch_assoc()): ?>
+            <div class="bg-white rounded-lg shadow-md overflow-hidden">
+              <?php if (!empty($row['image_url'])): ?>
+                <img src="<?= htmlspecialchars($row['image_url']) ?>" alt="artikel" class="w-full h-48 object-cover">
+              <?php else: ?>
+                <img src="https://source.unsplash.com/600x400/?blog" alt="artikel" class="w-full h-48 object-cover">
+              <?php endif; ?>
+              
+              <div class="p-4">
+                <h3 class="text-lg font-semibold mb-2"><?= htmlspecialchars($row['title']) ?></h3>
+                <p class="text-sm text-gray-600 mb-1">Oleh <span class="font-medium"><?= htmlspecialchars($row['username']) ?></span> • <?= date('d M Y', strtotime($row['created_at'])) ?></p>
+                <p class="text-sm text-gray-600 mb-4"><?= nl2br(htmlspecialchars(substr($row['content'], 0, 100))) ?>...</p>
+                <a href="post.php?id=<?= $row['id'] ?>" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
+              </div>
+            </div>
+          <?php endwhile; ?>
+        <?php else: ?>
+          <p class="text-center text-gray-500 col-span-3">Belum ada artikel.</p>
+        <?php endif; ?>
       </div>
     </div>
   </section>

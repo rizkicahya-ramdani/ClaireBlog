@@ -1,6 +1,6 @@
 <?php
 session_start();
-include 'connection.php'; // pastikan file ini mendefinisikan $conn dengan benar
+include 'connection.php';
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $username_or_email = isset($_POST['username']) ? trim($_POST['username']) : '';
@@ -16,12 +16,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $result->fetch_assoc();
 
             if (password_verify($password, $user['password'])) {
-                // Set session
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['profile_picture'] = $user['profile_picture'];
 
-                // Redirect ke index setelah login sukses
                 header("Location: index.php");
                 exit;
             } else {
