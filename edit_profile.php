@@ -2,7 +2,6 @@
 include 'connection.php';
 session_start();
 
-// Ambil data pengguna
 $username = $_SESSION['username'];
 $query = "SELECT * FROM users WHERE username = ?";
 $stmt = $connection->prepare($query);
@@ -11,12 +10,10 @@ $stmt->execute();
 $result = $stmt->get_result();
 $user = $result->fetch_assoc();
 
-// Proses update
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_email = $_POST['email'];
-    $profile_picture = $user['profile_picture']; // default lama
+    $profile_picture = $user['profile_picture']; 
 
-    // Proses upload gambar
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
         $targetDir = "uploads/";
         $filename = basename($_FILES["profile_picture"]["name"]);

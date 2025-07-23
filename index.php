@@ -35,7 +35,7 @@ $result = $connection->query("SELECT posts.*, users.username FROM posts
     <div class="max-w-4xl mx-auto px-4 text-center">
       <h1 class="text-4xl font-bold mb-4">Selamat Datang di ClaireBlog</h1>
       <p class="text-lg">Temukan artikel menarik seputar teknologi, pemrograman, dan kehidupan digital.</p>
-      <a href="#artikel" class="mt-6 inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100">Jelajahi Artikel</a>
+      <a href="page/post/create.php" class="mt-6 inline-block bg-white text-blue-600 font-semibold px-6 py-3 rounded-lg shadow hover:bg-gray-100">Buat Blog</a>
     </div>
   </section>
 
@@ -47,8 +47,8 @@ $result = $connection->query("SELECT posts.*, users.username FROM posts
         <?php if ($result->num_rows > 0): ?>
           <?php while($row = $result->fetch_assoc()): ?>
             <div class="bg-white rounded-lg shadow-md overflow-hidden">
-              <?php if (!empty($row['image_url'])): ?>
-                <img src="<?= htmlspecialchars($row['image_url']) ?>" alt="artikel" class="w-full h-48 object-cover">
+              <?php if (!empty($row['image'])): ?>
+                <img src="<?= htmlspecialchars($row['image']) ?>" alt="artikel" class="w-full h-48 object-cover">
               <?php else: ?>
                 <img src="https://source.unsplash.com/600x400/?blog" alt="artikel" class="w-full h-48 object-cover">
               <?php endif; ?>
