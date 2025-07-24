@@ -77,7 +77,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <div class="max-w-3xl mx-auto py-16 px-4">
     <div class="bg-white rounded-lg shadow-lg p-8">
 
-      <h1 class="text-2xl font-bold mb-6 text-gray-800">📝 Tulis Artikel Baru</h1>
+      <h1 class="text-2xl font-bold mb-6 text-gray-800">Tulis Artikel Baru</h1>
 
       <?php if (!empty($success)): ?>
         <div class="bg-green-100 text-green-800 p-4 rounded mb-4 border border-green-300"><?= $success ?></div>
@@ -114,7 +114,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
         <div class="pt-4">
           <button type="submit" name="submit" class="bg-blue-600 text-white font-semibold px-6 py-2 rounded-lg hover:bg-blue-700 transition">
-            💾 Simpan Artikel
+            Simpan Artikel
           </button>
         </div>
       </form>
