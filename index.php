@@ -1,11 +1,6 @@
 <?php
 include 'connection.php';
-// session_start();
-
-// if (!isset($_SESSION['username'])) {
-//   header('Location: login.php');
-//   exit();
-// }
+session_start();
 
 $result = $connection->query("SELECT posts.*, users.username FROM posts 
                         JOIN users ON posts.user_id = users.id 
