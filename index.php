@@ -57,7 +57,7 @@ $result = $connection->query("SELECT posts.*, users.username FROM posts
                 <h3 class="text-lg font-semibold mb-2"><?= htmlspecialchars($row['title']) ?></h3>
                 <p class="text-sm text-gray-600 mb-1">Oleh <span class="font-medium"><?= htmlspecialchars($row['username']) ?></span> • <?= date('d M Y', strtotime($row['created_at'])) ?></p>
                 <p class="text-sm text-gray-600 mb-4"><?= nl2br(htmlspecialchars(substr($row['content'], 0, 100))) ?>...</p>
-                <a href="post.php?id=<?= $row['id'] ?>" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
+                <a href="page/post/post.php?id=<?= $row['id'] ?>" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
               </div>
             </div>
           <?php endwhile; ?>
