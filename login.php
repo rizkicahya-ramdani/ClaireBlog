@@ -16,8 +16,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $user = $result->fetch_assoc();
 
             if (password_verify($password, $user['password'])) {
-                // ✅ Simpan semua data penting ke session
-                $_SESSION['user_id'] = $user['id']; // ⬅️ penting agar create.php tahu siapa yang login
+                $_SESSION['user_id'] = $user['id']; 
                 $_SESSION['username'] = $user['username'];
                 $_SESSION['email'] = $user['email'];
                 $_SESSION['profile_picture'] = $user['profile_picture'];

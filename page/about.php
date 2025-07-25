@@ -28,7 +28,7 @@ include '../components/navbar.php';
     <section class="max-w-4xl mx-auto px-6 py-12">
       <h1 class="text-4xl font-bold mb-6 text-center text-blue-700">Tentang Kami</h1>
       <p class="text-lg mb-4 text-justify leading-relaxed">
-        Selamat datang di <strong>Blog-App</strong>, platform berbagi informasi dan artikel menarik dari berbagai kategori.
+        Selamat datang di <strong>ClaireBlog</strong>, platform berbagi informasi dan artikel menarik dari berbagai kategori.
         Kami menyediakan tempat bagi pengguna untuk membaca dan berbagi pengetahuan yang bermanfaat, mulai dari teknologi,
         kesehatan, pendidikan, hingga lifestyle.
       </p>
@@ -37,7 +37,7 @@ include '../components/navbar.php';
         yang nyaman, ringan, dan inspiratif. Kami percaya bahwa setiap orang memiliki cerita dan wawasan yang bisa dibagikan.
       </p>
       <p class="text-lg text-justify leading-relaxed">
-        Terima kasih telah mengunjungi Blog-App. Jangan ragu untuk membuat akun, menulis artikelmu sendiri, dan bergabung
+        Terima kasih telah mengunjungi ClaireBlog. Jangan ragu untuk membuat akun, menulis artikelmu sendiri, dan bergabung
         dalam komunitas kami!
       </p>
     </section>

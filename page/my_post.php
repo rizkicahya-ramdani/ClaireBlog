@@ -20,6 +20,7 @@ $result = $stmt->get_result();
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>ClaireBlog - My Posts</title>
   <!-- Google Fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -35,7 +36,6 @@ $result = $stmt->get_result();
 
   <div class="max-w-4xl mx-auto py-10 px-4">
     <h1 class="text-3xl font-bold mb-6">My Blog Posts</h1>
-
     <?php while ($row = $result->fetch_assoc()): ?>
       <div class="bg-white rounded-lg shadow-md mb-6 p-6">
         <h2 class="text-xl font-semibold mb-2"><?= htmlspecialchars($row['title']) ?></h2>
@@ -48,9 +48,9 @@ $result = $stmt->get_result();
         <p class="text-gray-700 mb-4"><?= substr(strip_tags($row['content']), 0, 200) ?>...</p>
         
         <div class="flex space-x-4">
-          <a href="view.php?id=<?= $row['id'] ?>" class="text-blue-600 hover:underline">View</a>
-          <a href="edit.php?id=<?= $row['id'] ?>" class="text-yellow-600 hover:underline">Edit</a>
-          <a href="delete.php?id=<?= $row['id'] ?>" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?')">Delete</a>
+          <a href="post/post.php?id=<?= $row['id'] ?>" class="text-blue-600 hover:underline">View</a>
+          <a href="post/edit.php?id=<?= $row['id'] ?>" class="text-yellow-600 hover:underline">Edit</a>
+          <a href="post/delete.php?id=<?= $row['id'] ?>" class="text-red-600 hover:underline" onclick="return confirm('Are you sure?')">Delete</a>
         </div>
       </div>
     <?php endwhile; ?>
