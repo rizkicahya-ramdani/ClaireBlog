@@ -126,7 +126,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       </div>
 
       <div class="flex justify-end items-center gap-4 mt-8">
-        <a href="<?= $base_url ?>page/user/my_posts.php" class="text-blue-600 hover:underline">Cancel</a>
+        <a href="<?= $base_url ?>page/my_post.php" class="text-blue-600 hover:underline">Cancel</a>
         <button type="submit" class="bg-blue-600 text-white px-5 py-2 rounded hover:bg-blue-700">Update</button>
       </div>
     </form>

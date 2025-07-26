@@ -63,7 +63,7 @@ $posts = $post_query->get_result();
             <div class="p-6">
               <h2 class="text-xl font-semibold mb-2"><?= htmlspecialchars($row['title']) ?></h2>
               <p class="text-sm text-gray-600 mb-4"><?= substr(strip_tags($row['content']), 0, 150) ?>...</p>
-              <a href="../page/read.php?slug=<?= htmlspecialchars($row['slug']) ?>" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
+              <a href="../page/post/post.php?id=<?= htmlspecialchars($row['id']) ?>" class="text-blue-600 hover:underline">Baca selengkapnya →</a>
             </div>
           </div>
         <?php endwhile; ?>
