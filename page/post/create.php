@@ -14,15 +14,22 @@ function generateSlug($string) {
     $slug = strtolower(trim($string));
     $slug = preg_replace('/[^a-z0-9-]/', '-', $slug);  
     $slug = preg_replace('/-+/', '-', $slug);
-    $slug = trim($slug, '-'); 
-    return $slug;
+    return trim($slug, '-');
+}
+
+// Ambil semua kategori
+$categories = [];
+$categoryQuery = $connection->query("SELECT id, name FROM categories");
+while ($row = $categoryQuery->fetch_assoc()) {
+    $categories[] = $row;
 }
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-    $title = $_POST['title'];
-    $content = $_POST['content'];
-    $status = $_POST['status'];
-    $slug = generateSlug($title); // Buat slug dari judul
+    $title       = $_POST['title'];
+    $content     = $_POST['content'];
+    $status      = $_POST['status'];
+    $category_id = $_POST['category_id'];
+    $slug        = generateSlug($title);
 
     $imagePath = null;
     if (!empty($_FILES['image']['name'])) {
@@ -45,6 +52,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $stmt->bind_param("isssss", $user_id, $title, $slug, $content, $imagePath, $status);
 
         if ($stmt->execute()) {
+            $post_id = $stmt->insert_id;
+
+            // Simpan relasi kategori
+            $stmt_cat = $connection->prepare("INSERT INTO post_categories (post_id, category_id) VALUES (?, ?)");
+            $stmt_cat->bind_param("ii", $post_id, $category_id);
+            $stmt_cat->execute();
+
             $success = "Artikel berhasil disimpan!";
         } else {
             $error = "Gagal menyimpan artikel: " . $stmt->error;
@@ -52,6 +66,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     }
 }
 ?>
+
 
 
 
@@ -102,6 +117,18 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <div>
           <label class="block mb-1 font-medium text-gray-700">Upload Gambar</label>
           <input type="file" name="image" accept="image/*" class="w-full border border-gray-300 px-4 py-2 rounded-lg bg-white">
+        </div>
+
+        <div>
+          <label class="block mb-1 font-medium">Kategori</label>
+          <select name="category_id" class="w-full border px-4 py-2 rounded">
+            <?php
+              $categoryResult = $connection->query("SELECT * FROM categories");
+              while ($cat = $categoryResult->fetch_assoc()):
+            ?>
+              <option value="<?= $cat['id'] ?>"><?= htmlspecialchars($cat['name']) ?></option>
+            <?php endwhile; ?>
+          </select>
         </div>
 
         <div>
