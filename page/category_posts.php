@@ -45,16 +45,16 @@ $posts = $post_query->get_result();
   
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
   <?php include '../components/navbar.php'; ?>
 
-  <main class="max-w-5xl mx-auto px-4 py-12">
-    <h1 class="text-3xl font-bold mb-6 text-center text-blue-700">
+  <main class="flex-grow max-w-7xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-8 text-center text-blue-700">
       Kategori: <?= htmlspecialchars($category['name']) ?>
     </h1>
 
     <?php if ($posts->num_rows > 0): ?>
-      <div class="space-y-8">
+      <div class="grid md:grid-cols-3 gap-8">
         <?php while ($row = $posts->fetch_assoc()): ?>
           <div class="bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden">
             <?php if (!empty($row['image'])): ?>
