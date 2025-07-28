@@ -41,7 +41,8 @@ $base_url = "/blog-app/";
 
           <!-- Dropdown Menu -->
           <div id="profileDropdown" class="hidden absolute right-0 top-14 bg-white border rounded-md shadow-lg w-48 z-50">
-            <a href="<?= $base_url ?>edit_profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+            <a href="<?= $base_url ?>page/edit_profile.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Edit Profile</a>
+            <a href="<?= $base_url ?>page/post/create.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">Buat Blog</a>
             <a href="<?= $base_url ?>page/my_post.php" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">My Blogs</a>
             <a href="<?= $base_url ?>logout.php" class="block px-4 py-2 text-sm text-red-600 hover:bg-gray-100">Logout</a>
           </div>

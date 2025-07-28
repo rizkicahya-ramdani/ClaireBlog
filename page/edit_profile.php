@@ -1,6 +1,8 @@
 <?php
-include 'connection.php';
+include '../connection.php';
 session_start();
+
+$base_url = "/blog-app/";
 
 $username = $_SESSION['username'];
 $query = "SELECT * FROM users WHERE username = ?";
@@ -46,13 +48,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@100..900&display=swap" rel="stylesheet">
 
-  <link rel="stylesheet" href="style.css">
+  <link rel="stylesheet" href="../style.css">
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 <body class="flex flex-col min-h-screen bg-gray-100">
 
   <!-- Navbar -->
-  <?php include 'components/navbar.php'; ?>
+  <?php include '../components/navbar.php'; ?>
 
   <!-- Main Content -->
     <main class="flex-grow flex items-center justify-center px-4">
@@ -61,7 +63,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Gambar Profil -->
             <div class="mb-4 flex flex-col items-center">
-                <img src="<?php echo $user['profile_picture'] ?? 'default.png'; ?>"
+                <img src="<?= $base_url . $user['profile_picture'] ?? 'default.png'; ?>"
                      alt="Foto Profil" class="w-28 h-28 rounded-full object-cover border shadow mb-2">
             </div>
 
@@ -92,7 +94,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     </main>
 
   <!-- Footer -->
-  <?php include 'components/footer.php'; ?>
+  <?php include '../components/footer.php'; ?>
 
 </body>
 </html>
