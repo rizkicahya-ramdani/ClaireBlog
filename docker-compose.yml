@@ -7,6 +7,8 @@ services:
       - "8000:80"
     volumes:
       - .:/var/www/html
+      - ./page:/var/www/html/page
+      - ./uploads:/var/www/html/uploads
     depends_on:
       - db
 

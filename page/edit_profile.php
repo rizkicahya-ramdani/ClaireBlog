@@ -2,7 +2,7 @@
 include '../connection.php';
 session_start();
 
-$base_url = "/blog-app/";
+$base_url = "/";
 
 $username = $_SESSION['username'];
 $query = "SELECT * FROM users WHERE username = ?";
@@ -14,23 +14,34 @@ $user = $result->fetch_assoc();
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $new_email = $_POST['email'];
-    $profile_picture = $user['profile_picture']; 
+    $profile_picture = $user['profile_picture'];
 
     if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] === UPLOAD_ERR_OK) {
-        $targetDir = "uploads/";
-        $filename = basename($_FILES["profile_picture"]["name"]);
-        $targetFilePath = $targetDir . time() . "_" . $filename;
-        move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $targetFilePath);
-        $profile_picture = $targetFilePath;
+      $uploadsDir = __DIR__ . "/../uploads/";
+      $filename = time() . "_" . basename($_FILES["profile_picture"]["name"]);
+      $filepath = $uploadsDir . $filename;
+
+      // Pastikan direktori ada
+      if (!file_exists($uploadsDir)) {
+        mkdir($uploadsDir, 0755, true);
+      }
+
+      // Simpan file
+      if (move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $filepath)) {
+        $profile_picture = "uploads/" . $filename;
+      } else {
+        echo "<script>alert('Gagal mengunggah gambar.');</script>";
+      }
     }
 
-    $update = $connection->prepare("UPDATE users SET email = ?, profile_picture = ? WHERE username = ?");
+
+	$update = $connection->prepare("UPDATE users SET email = ?, profile_picture = ? WHERE username = ?");
     $update->bind_param("sss", $new_email, $profile_picture, $username);
 
     if ($update->execute()) {
         $_SESSION['email'] = $new_email;
         $_SESSION['profile_picture'] = $profile_picture;
-        echo "<script>alert('Profil berhasil diperbarui'); window.location='edit_profile.php';</script>";
+			  header("Location: edit_profile.php");
     } else {
         echo "<script>alert('Gagal memperbarui profil');</script>";
     }
@@ -63,8 +74,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
             <!-- Gambar Profil -->
             <div class="mb-4 flex flex-col items-center">
-                <img src="<?= $base_url . $user['profile_picture'] ?? 'default.png'; ?>"
-                     alt="Foto Profil" class="w-28 h-28 rounded-full object-cover border shadow mb-2">
+              <img src="<?= $base_url . (!empty($user['profile_picture']) ? $user['profile_picture'] : 'uploads/default.png'); ?>"
+                   alt="Foto Profil" class="w-28 h-28 rounded-full object-cover border shadow mb-2">
             </div>
 
             <!-- Form -->

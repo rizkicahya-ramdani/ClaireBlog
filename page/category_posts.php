@@ -58,7 +58,7 @@ $posts = $post_query->get_result();
         <?php while ($row = $posts->fetch_assoc()): ?>
           <div class="bg-white rounded-lg shadow hover:shadow-md transition overflow-hidden">
             <?php if (!empty($row['image'])): ?>
-              <img src="/blog-app/<?= htmlspecialchars($row['image']) ?>" alt="gambar artikel" class="w-full h-64 object-cover">
+              <img src="/<?= htmlspecialchars($row['image']) ?>" alt="gambar artikel" class="w-full h-64 object-cover">
             <?php endif; ?>
             <div class="p-6">
               <h2 class="text-xl font-semibold mb-2"><?= htmlspecialchars($row['title']) ?></h2>
