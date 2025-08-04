@@ -4,14 +4,12 @@ session_start();
 
 $base_url = "/blog-app/";
 
-// Ambil ID dari URL
 $id = $_GET['id'] ?? null;
 if (!$id) {
 	header("Location: {$base_url}index.php");
 	exit;
 }
 
-// Ambil data artikel + username penulis
 $stmt = $connection->prepare("
     SELECT posts.*, users.username 
     FROM posts 
@@ -29,7 +27,6 @@ if ($result->num_rows !== 1) {
 
 $post = $result->fetch_assoc();
 
-// Ambil kategori terkait dari relasi many-to-many
 $cat_stmt = $connection->prepare("
     SELECT c.name 
     FROM categories c 
@@ -44,7 +41,19 @@ $categories = [];
 while ($row = $cat_result->fetch_assoc()) {
 	$categories[] = $row['name'];
 }
+
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['content'])) {
+	$user_name = $_POST['user_name'];
+	$user_email = $_POST['user_email'];
+	$content = $_POST['content'];
+
+	$comment_stmt = $connection->prepare("INSERT INTO comments (post_id, user_name, user_email, content, status) VALUES (?, ?, ?, ?, 'approved')");
+	$comment_stmt->bind_param("isss", $id, $user_name, $user_email, $content);
+	$comment_stmt->execute();
+}
+
 ?>
+
 <!DOCTYPE html>
 <html lang="id">
 <head>
@@ -97,6 +106,37 @@ while ($row = $cat_result->fetch_assoc()) {
     <!-- Konten -->
     <div class="prose max-w-none text-lg">
 			<?= nl2br(htmlspecialchars($post['content'])) ?>
+    </div>
+
+    <div class="mt-10">
+      <h2 class="text-2xl font-semibold mb-4">Buat Komentar</h2>
+      <form action="" method="POST" class="space-y-4">
+        <input type="text" name="user_name" placeholder="Nama Anda" required class="w-full p-2 border rounded" />
+        <input type="email" name="user_email" placeholder="Email Anda" required class="w-full p-2 border rounded" />
+        <textarea name="content" rows="4" placeholder="Tulis komentar..." required class="w-full p-2 border rounded"></textarea>
+        <button type="submit" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">Kirim</button>
+      </form>
+    </div>
+
+    <!-- Daftar Komentar -->
+    <div class="mt-10">
+      <h2 class="text-2xl font-semibold mb-4">Komentar</h2>
+			<?php
+			$comment_q = $connection->prepare("SELECT * FROM comments WHERE post_id = ? AND status = 'approved' ORDER BY created_at DESC");
+			$comment_q->bind_param("i", $id);
+			$comment_q->execute();
+			$comments = $comment_q->get_result();
+
+			if ($comments->num_rows === 0): ?>
+        <p class="text-gray-500">Belum ada komentar.</p>
+			<?php else:
+				while ($c = $comments->fetch_assoc()): ?>
+          <div class="border rounded p-4 mb-4 bg-white">
+            <div class="text-sm font-semibold"><?= htmlspecialchars($c['user_name']) ?></div>
+            <div class="text-xs text-gray-500 mb-2"><?= date('d M Y, H:i', strtotime($c['created_at'])) ?></div>
+            <p><?= nl2br(htmlspecialchars($c['content'])) ?></p>
+          </div>
+				<?php endwhile; endif; ?>
     </div>
 
     <!-- Tombol Kembali -->
