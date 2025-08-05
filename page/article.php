@@ -26,7 +26,7 @@ $result = $connection->query("SELECT posts.*, users.username FROM posts
 
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body class="bg-gray-50 text-gray-800">
+<body class="min-h-screen flex flex-col bg-gray-50 text-gray-800">
 
 <?php include '../components/navbar.php'; ?>
 
